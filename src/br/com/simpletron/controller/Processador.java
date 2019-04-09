@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.simpletron.controller;
 
 /**
+ * <p>
+ * A classe representa o estado corrente do processador.</p>
  *
- * @author adriel
  */
 public class Processador {
 
@@ -17,100 +13,145 @@ public class Processador {
     private int operando = 0;
     private int pilha = 0;
     private final int[] memoria = new int[1000];
-    private String barramentoSaida = "";
+    private String saidaPadrao = "";
 
     /**
-     * @return the acumulador
+     * <p>
+     * Retornar o valor contido no acumulador.</p>
+     *
+     * @return acumulador
      */
     public int getAcumulador() {
         return acumulador;
     }
 
     /**
-     * @param acumulador the acumulador to set
+     * <p>
+     * Configurar um valor no acumulador</p>
+     *
+     * @param acumulador
      */
     public void setAcumulador(int acumulador) {
         this.acumulador = acumulador;
     }
 
     /**
-     * @return the contadorDeInstrucao
+     * <p>
+     * Retornar o contador de instrução</p>
+     *
+     * @return contadorDeInstrucao
      */
     public int getContadorDeInstrucao() {
         return contadorDeInstrucao;
     }
 
     /**
-     * @param contadorDeInstrucao the contadorDeInstrucao to set
+     * <p>
+     * Configura o contador de instrução.</p>
+     *
+     * @param contadorDeInstrucao
      */
     public void setContadorDeInstrucao(int contadorDeInstrucao) {
         this.contadorDeInstrucao = contadorDeInstrucao;
     }
 
     /**
-     * @return the operacao
+     * <p>
+     * Retornar a operação corrente.</p>
+     *
+     * @return operacao
      */
     public int getOperacao() {
         return operacao;
     }
 
     /**
-     * @param operacao the operacao to set
+     * <p>
+     * Configura uma operação passada por parâmetro.</p>
+     *
+     * @param operacao
      */
     public void setOperacao(int operacao) {
         this.operacao = operacao;
     }
 
     /**
-     * @return the operando
+     * <p>
+     * Retorna o endereço de memória do operando corrente.</p>
+     *
+     * @return operando
      */
     public int getOperando() {
         return operando;
     }
 
     /**
-     * @param operando the operando to set
+     * <p>
+     * Configura operando.</p>
+     *
+     * @param operando
      */
     public void setOperando(int operando) {
         this.operando = operando;
     }
 
     /**
-     * @return the pilha
+     * <p>Retorna o endereço do topo da pilha.</p>
+     * @return pilha
      */
     public int getPilha() {
         return pilha;
     }
 
     /**
-     * @param pilha the pilha to set
+     * <p>Configura o endereço do topo da pilha. Aqui o index que indica o topo
+     * da pilha será atualizado. Utilize o método de setMemoria para configurar
+     * um valor no topo da pilha após a atualização.</p>
+     * @param pilha
      */
     public void setPilha(int pilha) {
         this.pilha = pilha;
     }
 
+    /**
+     * <p>Configura um valor em uma determinada posição de mémoria.</p>
+     * @param posicao
+     * @param valor 
+     */
     public void setMemoria(int posicao, int valor) {
         memoria[posicao] = valor;
     }
 
+    /**
+     * <p>Devolve um valor em uma determinada posição de memória.</p>
+     * @param posicao
+     * @return 
+     */
     public int getMemoria(int posicao) {
         return memoria[posicao];
     }
 
     /**
-     * @return the barramentoSaida
+     * <p>Devolve o valor da que será enviado para a saída.</p>
+     * @return barramentoSaida
      */
-    public String getBarramentoSaida() {
-        return barramentoSaida;
+    public String getSaidaPadrao() {
+        return saidaPadrao;
     }
 
     /**
-     * @param barramentoSaida the barramentoSaida to set
+     * <p>Configura o conteúdo que será enviado para a saída.</p>
+     * @param saidaPadrao 
      */
-    public void setBarramentoSaida(String barramentoSaida) {
-        this.barramentoSaida = barramentoSaida;
+    public void setSaidaPadrao(String saidaPadrao) {
+        this.saidaPadrao = saidaPadrao;
     }
 
+    /**
+     * <p>Devolve a quantidade de células de memória.</p> 
+     * 
+     * @return quantidadeDeCelulaDeMemoria;
+     */
     public int getTamanhoMemoria() {
         return memoria.length;
     }

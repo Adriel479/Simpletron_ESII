@@ -36,7 +36,7 @@ public class ClasseDeTeste extends Controlador {
 
             case Comandos.WRITE:
                 dado = processador.getMemoria(processador.getOperando());
-                processador.setBarramentoSaida(String.valueOf(dado));
+                processador.setSaidaPadrao(String.valueOf(dado));
                 break;
 
             case Comandos.LOAD:
@@ -124,7 +124,7 @@ public class ClasseDeTeste extends Controlador {
                     stringSaida += (char) (processador.getMemoria(deslocador)%1000);
                     deslocador++;
                 }
-                processador.setBarramentoSaida(stringSaida);
+                processador.setSaidaPadrao(stringSaida);
                 break;
         }
         processador.setContadorDeInstrucao(processador.

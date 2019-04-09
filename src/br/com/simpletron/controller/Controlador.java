@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.simpletron.controller;
 
 import br.com.simpletron.view.Ajuda;
@@ -18,7 +13,10 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author adriel
+ *
+ * <p>
+ * A classe é responsável por ligar as funções do processador à tela do MPS.</p>
+ *
  */
 @SuppressWarnings("")
 public abstract class Controlador implements ActionListener {
@@ -47,6 +45,12 @@ public abstract class Controlador implements ActionListener {
         processador = new Processador();
     }
 
+    /**
+     * <p>
+     * Método ouvinte.</p>
+     *
+     * @param evento - ActionEvent
+     */
     @Override
     public final void actionPerformed(ActionEvent evento) {
         if (evento.getSource() == telaPrincipal.btnAbrir) {
@@ -109,7 +113,7 @@ public abstract class Controlador implements ActionListener {
         processador.setOperacao(0);
         processador.setOperando(0);
         processador.setPilha(0);
-        processador.setBarramentoSaida("");
+        processador.setSaidaPadrao("");
 
         // Reinicialização -Memória
         for (int i = 0; i < 1000; i++) {
@@ -137,8 +141,8 @@ public abstract class Controlador implements ActionListener {
             }
         }
 
-        if (!processador.getBarramentoSaida().isEmpty()) {
-            telaPrincipal.tfSaida.setText(String.valueOf(processador.getBarramentoSaida() + "\n"));
+        if (!processador.getSaidaPadrao().isEmpty()) {
+            telaPrincipal.tfSaida.setText(String.valueOf(processador.getSaidaPadrao() + "\n"));
         }
 
         telaPrincipal.invalidate();
@@ -146,16 +150,50 @@ public abstract class Controlador implements ActionListener {
         telaPrincipal.repaint();
     }
 
+    /**
+     * <p>
+     * Devolve um conjunto de comandos listados no editor de texto do MPS.</p>
+     *
+     * @return comandos
+     */
     public final String getComandos() {
         return telaPrincipal.tfCodigo.getText();
     }
 
+    /**
+     * <p>
+     * Devolve um leitor de dados textuais para carregamento de comandos do
+     * MPS.</p>.
+     *
+     * @return BufereredReader
+     */
     public abstract BufferedReader abrirDocumento();
 
+    /**
+     * <p>
+     * Define conteúdo que deve ser apresentado ao usuário, quando o mesmo
+     * clicar no botão de ajuda.</p>
+     *
+     * @return String
+     */
     public abstract String ajuda();
 
-    public abstract void executar(Processador processador);
+    /**
+     * <p>
+     * Executa o processador. A reptição está implicitamente definida para esse
+     * método. O mesmo será executado até que o registador de operação contenha
+     * a operação de parada.</p>
+     *
+     * @param processador 
+     */
+    public abstract void executar(final Processador processador);
 
+    /**
+     * <p>
+     * Retornar objeto escritor para gravação do programa fonte em disco.</p>
+     *
+     * @return FileWriter
+     */
     public abstract FileWriter salvarDocumento();
 
 }
