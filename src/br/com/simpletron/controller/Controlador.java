@@ -74,46 +74,46 @@ public abstract class Controlador implements ActionListener {
         Processador[] teste = carregarTestes(programa);
 
         if (p0 == null || !p0.equals(teste[0])) {
-            resultados.append("[{nome: \'Soma de inteiros\', estado:false},");
+            resultados.append("[{'nome': 'Soma de inteiros', 'estado':false},");
         } else {
-            resultados.append("[{nome: \'Soma de inteiros\', estado:true},");
+            resultados.append("[{'nome': 'Soma de inteiros', 'estado':true},");
         }
 
         if (p1 == null || !p1.equals(teste[1])) {
-            resultados.append("{nome: \'Multiplicação de inteiros\', estado:false},");
+            resultados.append("{'nome': 'Multiplicação de inteiros', 'estado':false},");
         } else {
-            resultados.append("{nome: \'Multiplicação de inteiros\', estado:true},");
+            resultados.append("{'nome': 'Multiplicação de inteiros', 'estado':true},");
         }
 
         if (p2 == null || !p2.equals(teste[2])) {
 
-            resultados.append("{nome: \'Divisão de inteiros\', estado:false}");
+            resultados.append("{nome: 'Divisão de inteiros', 'estado':false}");
         } else {
-            resultados.append("{nome: \'Divião de inteiros\', estado:true}");
+            resultados.append("{nome: 'Divião de inteiros', 'estado':true}");
         }
 
         if (p3 == null || !p3.equals(teste[3])) {
-            resultados.append("{nome: \'Teste de paridade\', estado:false},");
+            resultados.append("{'nome': 'Teste de paridade', 'estado':false},");
         } else {
-            resultados.append("{nome: \'Teste de paridade\', estado:true},");
+            resultados.append("{'nome': 'Teste de paridade', 'estado':true},");
         }
 
         if (p4 == null || !p4.equals(teste[4])) {
-            resultados.append("{nome: \'Print texto\', estado:false},");
+            resultados.append("{'nome': 'Print texto', 'estado':false},");
         } else {
-            resultados.append("{nome: \'Print texto\', estado:true},");
+            resultados.append("{'nome': 'Print texto', 'estado':true},");
         }
 
         if (p5 == null || !p5.equals(teste[5])) {
-            resultados.append("{nome: \'Subtração de inteiros\', estado:false},");
+            resultados.append("{'nome': 'Subtração de inteiros', 'estado':false},");
         } else {
-            resultados.append("{nome: \'Subtração de inteiros\', estado:true},");
+            resultados.append("{'nome': 'Subtração de inteiros', 'estado':true},");
         }
 
         if (p6 == null || !p6.equals(teste[6])) {
-            resultados.append("{nome: \'Empilha/Desempilha inteiro\', estado:false}]");
+            resultados.append("{'nome': 'Empilha/Desempilha inteiro', 'estado':false}]");
         } else {
-            resultados.append("{nome: \'Empilha/Desempilha inteiro\', estado:true}]");
+            resultados.append("{'nome': 'Empilha/Desempilha inteiro', 'estado':true}]");
         }
 
         try ( FileWriter escritor = new FileWriter("Resultado.json")) {
