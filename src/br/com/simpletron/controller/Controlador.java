@@ -2,6 +2,7 @@ package br.com.simpletron.controller;
 
 import br.com.simpletron.view.Ajuda;
 import br.com.simpletron.view.Simpletron;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -21,12 +22,13 @@ import javax.swing.table.DefaultTableModel;
 @SuppressWarnings("")
 public abstract class Controlador implements ActionListener {
 
-    private final Simpletron telaPrincipal;
-    private final Processador processador;
-    private final DefaultTableModel modelo;
+    private Simpletron telaPrincipal;
+    private Processador processador;
+    private DefaultTableModel modelo;
     private int quantidadeDeLinhas;
+    private StringBuilder resultados;
 
-    public Controlador() {
+    public void iniciarExecucao() {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
@@ -43,6 +45,135 @@ public abstract class Controlador implements ActionListener {
         modelo = (DefaultTableModel) telaPrincipal.tbMemoria.getModel();
 
         processador = new Processador();
+        telaPrincipal.setExtendedState(MAXIMIZED_BOTH);
+        telaPrincipal.setVisible(true);
+    }
+
+    /*
+    
+    soma de inteiros
+    subtração de inteiros
+    multiplicação de inteiros
+    divisão de inteiros
+    
+    Verificação de paridade (Número par)
+    leitura e impressão de texto
+    empilhamento e desempilhamento de um valor inteiro.
+    
+     */
+    public void iniciarExecucao(String... programa) {
+        resultados = new StringBuilder();
+        Processador p0 = executarProcessador(programa[0]);
+        Processador p1 = executarProcessador(programa[1]);
+        Processador p2 = executarProcessador(programa[2]);
+        Processador p3 = executarProcessador(programa[3]);
+        Processador p4 = executarProcessador(programa[4]);
+        Processador p5 = executarProcessador(programa[5]);
+        Processador p6 = executarProcessador(programa[6]);
+
+        Processador[] teste = carregarTestes(programa);
+
+        if (p0 == null || !p0.equals(teste[0])) {
+            resultados.append("[{nome: \'Soma de inteiros\', estado:false},");
+        } else {
+            resultados.append("[{nome: \'Soma de inteiros\', estado:true},");
+        }
+
+        if (p1 == null || !p1.equals(teste[1])) {
+            resultados.append("{nome: \'Multiplicação de inteiros\', estado:false},");
+        } else {
+            resultados.append("{nome: \'Multiplicação de inteiros\', estado:true},");
+        }
+
+        if (p2 == null || !p2.equals(teste[2])) {
+
+            resultados.append("{nome: \'Divisão de inteiros\', estado:false}");
+        } else {
+            resultados.append("{nome: \'Divião de inteiros\', estado:true}");
+        }
+
+        if (p3 == null || !p3.equals(teste[3])) {
+            resultados.append("{nome: \'Teste de paridade\', estado:false},");
+        } else {
+            resultados.append("{nome: \'Teste de paridade\', estado:true},");
+        }
+
+        if (p4 == null || !p4.equals(teste[4])) {
+            resultados.append("{nome: \'Print texto\', estado:false},");
+        } else {
+            resultados.append("{nome: \'Print texto\', estado:true},");
+        }
+
+        if (p5 == null || !p5.equals(teste[5])) {
+            resultados.append("{nome: \'Subtração de inteiros\', estado:false},");
+        } else {
+            resultados.append("{nome: \'Subtração de inteiros\', estado:true},");
+        }
+
+        if (p6 == null || !p6.equals(teste[6])) {
+            resultados.append("{nome: \'Empilha/Desempilha inteiro\', estado:false}]");
+        } else {
+            resultados.append("{nome: \'Empilha/Desempilha inteiro\', estado:true}]");
+        }
+
+        try ( FileWriter escritor = new FileWriter("Resultado.json")) {
+            escritor.write(resultados.toString());
+            escritor.flush();
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+
+    }
+
+    private Processador[] carregarTestes(String... programa) {
+        Processador[] lista = new Processador[7];
+        if (programa.length > 7) {
+            throw new IllegalArgumentException("Erro: A quantidade de argumentos deve ser 7!");
+        }
+        for (int i = 0; i < 7; i++) {
+            lista[i] = executadorProcessadorImplementado(programa[i]);
+        }
+        return lista;
+    }
+
+    private Processador executadorProcessadorImplementado(String programa) {
+        Processador proc = new Processador();
+
+        String[] comandos = programa.split("\n");
+        int contador = 0;
+        for (String comando : comandos) {
+            proc.setMemoria(contador++, Integer.parseInt(comando, 10));
+        }
+        proc.setPilha(contador - 1);
+        Controlador imp = new Implementacao();
+        while (proc.getOperacao() != 53) {
+            imp.executar(proc);
+        }
+        return proc;
+    }
+
+    private Processador executarProcessador(String programa) {
+        Processador proc = new Processador();
+        String[] comandos = programa.split("\n");
+        int contador = 0;
+        for (String comando : comandos) {
+            if (comando.matches("[+|-][0-9]{5}")) {
+                proc.setMemoria(contador++, Integer.parseInt(comando, 10));
+            } else {
+                return null;
+            }
+        }
+
+        if (contador < 1000) {
+            proc.setPilha(contador - 1);
+        } else {
+            return null;
+        }
+
+        while (proc.getOperacao() != 53) {
+            executar(proc);
+        }
+        return proc;
     }
 
     /**
@@ -184,7 +315,7 @@ public abstract class Controlador implements ActionListener {
      * método. O mesmo será executado até que o registador de operação contenha
      * a operação de parada.</p>
      *
-     * @param processador 
+     * @param processador
      */
     public abstract void executar(final Processador processador);
 

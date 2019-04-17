@@ -96,7 +96,9 @@ public class Processador {
     }
 
     /**
-     * <p>Retorna o endereço do topo da pilha.</p>
+     * <p>
+     * Retorna o endereço do topo da pilha.</p>
+     *
      * @return pilha
      */
     public int getPilha() {
@@ -104,9 +106,11 @@ public class Processador {
     }
 
     /**
-     * <p>Configura o endereço do topo da pilha. Aqui o index que indica o topo
-     * da pilha será atualizado. Utilize o método de setMemoria para configurar
-     * um valor no topo da pilha após a atualização.</p>
+     * <p>
+     * Configura o endereço do topo da pilha. Aqui o index que indica o topo da
+     * pilha será atualizado. Utilize o método de setMemoria para configurar um
+     * valor no topo da pilha após a atualização.</p>
+     *
      * @param pilha
      */
     public void setPilha(int pilha) {
@@ -114,25 +118,31 @@ public class Processador {
     }
 
     /**
-     * <p>Configura um valor em uma determinada posição de mémoria.</p>
+     * <p>
+     * Configura um valor em uma determinada posição de mémoria.</p>
+     *
      * @param posicao
-     * @param valor 
+     * @param valor
      */
     public void setMemoria(int posicao, int valor) {
         memoria[posicao] = valor;
     }
 
     /**
-     * <p>Devolve um valor em uma determinada posição de memória.</p>
+     * <p>
+     * Devolve um valor em uma determinada posição de memória.</p>
+     *
      * @param posicao
-     * @return 
+     * @return
      */
     public int getMemoria(int posicao) {
         return memoria[posicao];
     }
 
     /**
-     * <p>Devolve o valor da que será enviado para a saída.</p>
+     * <p>
+     * Devolve o valor da que será enviado para a saída.</p>
+     *
      * @return barramentoSaida
      */
     public String getSaidaPadrao() {
@@ -140,19 +150,41 @@ public class Processador {
     }
 
     /**
-     * <p>Configura o conteúdo que será enviado para a saída.</p>
-     * @param saidaPadrao 
+     * <p>
+     * Configura o conteúdo que será enviado para a saída.</p>
+     *
+     * @param saidaPadrao
      */
     public void setSaidaPadrao(String saidaPadrao) {
         this.saidaPadrao = saidaPadrao;
     }
 
     /**
-     * <p>Devolve a quantidade de células de memória.</p> 
-     * 
+     * <p>
+     * Devolve a quantidade de células de memória.</p>
+     *
      * @return quantidadeDeCelulaDeMemoria;
      */
     public int getTamanhoMemoria() {
         return memoria.length;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Processador p = (Processador) obj;
+        boolean m = true;
+        for (int i = 0; i < this.memoria.length; i++) {
+            if (this.getMemoria(i) != p.getMemoria(i)) {
+               return false;
+            }
+        }
+
+        return m
+                && (p.getAcumulador() == this.getAcumulador())
+                && (p.getPilha() == this.getPilha())
+                && (p.getSaidaPadrao().equals(this.getSaidaPadrao()))
+                && (p.getOperando() == this.getOperando())
+                && (p.getOperacao() == this.getOperacao());
+    }
+
 }

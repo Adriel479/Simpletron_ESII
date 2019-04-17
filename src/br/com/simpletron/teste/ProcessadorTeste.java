@@ -18,8 +18,8 @@ import javax.swing.JOptionPane;
  *
  * @author adriel
  */
-public class ClasseDeTeste extends Controlador {
-
+public class ProcessadorTeste extends Controlador {
+    
     @Override
     public void executar(Processador processador) {
         int dado;
@@ -60,8 +60,10 @@ public class ClasseDeTeste extends Controlador {
                 break;
 
             case Comandos.DIV:
+                
                 dado = processador.getMemoria(processador.getOperando());
-                processador.setAcumulador(processador.getAcumulador() / dado);
+                processador.setAcumulador(processador.getAcumulador() * dado);
+                System.out.println("Acumulador Teste: " + processador.getAcumulador());
                 break;
 
             case Comandos.MUL:
@@ -119,9 +121,9 @@ public class ClasseDeTeste extends Controlador {
             case Comandos.PRINTS:
                 int deslocador = processador.getOperando();
                 String stringSaida = "";
-                while (processador.getMemoria(deslocador)/1000 != Comandos.STRING_END) {
-                    System.out.println(processador.getMemoria(deslocador)/1000);
-                    stringSaida += (char) (processador.getMemoria(deslocador)%1000);
+                while (processador.getMemoria(deslocador) / 1000 != Comandos.STRING_END) {
+                    System.out.println(processador.getMemoria(deslocador) / 1000);
+                    stringSaida += (char) (processador.getMemoria(deslocador) % 1000);
                     deslocador++;
                 }
                 processador.setSaidaPadrao(stringSaida);
@@ -132,7 +134,9 @@ public class ClasseDeTeste extends Controlador {
     }
 
     public static void main(String[] args) {
-        ClasseDeTeste classeDeTeste = new ClasseDeTeste();
+        ProcessadorTeste classeDeTeste = new ProcessadorTeste();
+        classeDeTeste.iniciarExecucao();
+
     }
 
     @Override

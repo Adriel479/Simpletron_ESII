@@ -16,8 +16,6 @@ public class Simpletron extends javax.swing.JFrame {
      */
     public Simpletron() {
         initComponents();
-        setExtendedState(MAXIMIZED_BOTH);
-        setVisible(true);
     }
 
     /**
