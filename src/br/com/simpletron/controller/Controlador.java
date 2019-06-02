@@ -2,12 +2,16 @@ package br.com.simpletron.controller;
 
 import br.com.simpletron.view.Ajuda;
 import br.com.simpletron.view.Simpletron;
+import java.awt.Desktop;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +31,7 @@ public abstract class Controlador implements ActionListener {
     private DefaultTableModel modelo;
     private int quantidadeDeLinhas;
     private StringBuilder resultados;
+    private String token;
 
     public void iniciarExecucao() {
         try {
@@ -49,6 +54,96 @@ public abstract class Controlador implements ActionListener {
         telaPrincipal.setVisible(true);
     }
 
+    public void executarTestes(String token) {
+        String p0 = "+20005\n"
+                + "+30006\n"
+                + "+21007\n"
+                + "+11007\n"
+                + "+53000\n"
+                + "+00020\n"
+                + "+00030\n"
+                + "+00000";
+
+        String p1 = "+20005\n"
+                + "+31006\n"
+                + "+21007\n"
+                + "+11007\n"
+                + "+53000\n"
+                + "+00020\n"
+                + "+00030\n"
+                + "+00000";
+
+        String p2 = "+20005\n"
+                + "+32006\n"
+                + "+21007\n"
+                + "+11007\n"
+                + "+53000\n"
+                + "+00020\n"
+                + "+00030\n"
+                + "+00000";
+        String p3 = "+20005\n"
+                + "+33006\n"
+                + "+21007\n"
+                + "+11007\n"
+                + "+53000\n"
+                + "+00020\n"
+                + "+00030\n"
+                + "+00000";
+        String p4 = "+20010\n"
+                + "+31011\n"
+                + "+21010\n"
+                + "+51006\n"
+                + "+52008\n"
+                + "+50001\n"
+                + "+11013\n"
+                + "+53000\n"
+                + "+11012\n"
+                + "+53000\n"
+                + "+00010\n"
+                + "+00002\n"
+                + "+00001\n"
+                + "+00000";
+        String p5 = "+20006\n"
+                + "+40000\n"
+                + "+20007\n"
+                + "+41000\n"
+                + "+21007\n"
+                + "+53000\n"
+                + "+01998\n"
+                + "+00000";
+        String p6 = "+61002\n"
+                + "+53000\n"
+                + "+00072\n"
+                + "+00069\n"
+                + "+00076\n"
+                + "+00076\n"
+                + "+00079\n"
+                + "+00032\n"
+                + "+00087\n"
+                + "+00079\n"
+                + "+00082\n"
+                + "+00076\n"
+                + "+00068\n"
+                + "+00033\n"
+                + "+70000";
+        int total = iniciarExecucao(p0, p1, p2, p3, p4, p5, p6);
+        if (total == 6) {
+            try {
+                Desktop.getDesktop().browse(URI.create(
+                        String.format("https://es2-project.firebaseapp.com/tasks/development/code?success=%d&fails=%d&token=%s", total, 0, token)));
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                Desktop.getDesktop().browse(URI.create(
+                        String.format("https://es2-project.firebaseapp.com/tasks/development/code?success=%d&fails=%d&token=%s", total, 6 - total, token)));
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     /*
     
     soma de inteiros
@@ -61,7 +156,7 @@ public abstract class Controlador implements ActionListener {
     empilhamento e desempilhamento de um valor inteiro.
     
      */
-    public void iniciarExecucao(String... programa) {
+    public int iniciarExecucao(String... programa) {
         resultados = new StringBuilder();
         Processador p0 = executarProcessador(programa[0]);
         Processador p1 = executarProcessador(programa[1]);
@@ -73,55 +168,64 @@ public abstract class Controlador implements ActionListener {
 
         Processador[] teste = carregarTestes(programa);
 
+        int contador = 0;
+
         if (p0 == null || !p0.equals(teste[0])) {
             resultados.append("[{'nome': 'Soma de inteiros', 'estado':false},");
         } else {
             resultados.append("[{'nome': 'Soma de inteiros', 'estado':true},");
+            contador++;
         }
 
         if (p1 == null || !p1.equals(teste[1])) {
             resultados.append("{'nome': 'Multiplicação de inteiros', 'estado':false},");
         } else {
             resultados.append("{'nome': 'Multiplicação de inteiros', 'estado':true},");
+            contador++;
         }
 
         if (p2 == null || !p2.equals(teste[2])) {
-
             resultados.append("{nome: 'Divisão de inteiros', 'estado':false}");
         } else {
             resultados.append("{nome: 'Divião de inteiros', 'estado':true}");
+            contador++;
         }
 
         if (p3 == null || !p3.equals(teste[3])) {
             resultados.append("{'nome': 'Teste de paridade', 'estado':false},");
         } else {
             resultados.append("{'nome': 'Teste de paridade', 'estado':true},");
+            contador++;
         }
 
         if (p4 == null || !p4.equals(teste[4])) {
             resultados.append("{'nome': 'Print texto', 'estado':false},");
         } else {
             resultados.append("{'nome': 'Print texto', 'estado':true},");
+            contador++;
         }
 
         if (p5 == null || !p5.equals(teste[5])) {
             resultados.append("{'nome': 'Subtração de inteiros', 'estado':false},");
         } else {
             resultados.append("{'nome': 'Subtração de inteiros', 'estado':true},");
+            contador++;
         }
 
         if (p6 == null || !p6.equals(teste[6])) {
             resultados.append("{'nome': 'Empilha/Desempilha inteiro', 'estado':false}]");
         } else {
             resultados.append("{'nome': 'Empilha/Desempilha inteiro', 'estado':true}]");
+            contador++;
         }
 
-        try ( FileWriter escritor = new FileWriter("Resultado.json")) {
+        /*try (FileWriter escritor = new FileWriter("Resultado.json")) {
             escritor.write(resultados.toString());
             escritor.flush();
         } catch (IOException e) {
             System.err.println(e);
-        }
+        }*/
+        return contador;
 
     }
 
@@ -186,7 +290,7 @@ public abstract class Controlador implements ActionListener {
     public final void actionPerformed(ActionEvent evento) {
         if (evento.getSource() == telaPrincipal.btnAbrir) {
             String conteudo = "";
-            try ( BufferedReader leitor = abrirDocumento()) {
+            try (BufferedReader leitor = abrirDocumento()) {
                 while (leitor.ready()) {
                     conteudo += leitor.readLine() + "\n";
                 }
@@ -227,7 +331,7 @@ public abstract class Controlador implements ActionListener {
                 }
             }).start();
         } else {
-            try ( FileWriter escritor = salvarDocumento();) {
+            try (FileWriter escritor = salvarDocumento();) {
                 escritor.write(telaPrincipal.tfCodigo.getText());
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, "Os dados não podem ser "

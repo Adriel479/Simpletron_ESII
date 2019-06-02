@@ -1,6 +1,8 @@
 package br.com.simpletron.teste;
 
-import br.com.simpletron.teste.ProcessadorTeste;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
 
 
 /*
@@ -86,10 +88,9 @@ public class TesteProcessador {
             + "+00033\n"
             + "+70000";
 
-    public static void executarTestes() {
+    public static void main(String[]args) throws IOException {
         ProcessadorTeste c = new ProcessadorTeste();
         c.iniciarExecucao(p0, p1, p2, p3, p4, p5, p6);
-
     }
 
 }

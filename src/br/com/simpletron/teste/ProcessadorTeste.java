@@ -135,7 +135,8 @@ public class ProcessadorTeste extends Controlador {
 
     public static void main(String[] args) {
         ProcessadorTeste classeDeTeste = new ProcessadorTeste();
-        classeDeTeste.iniciarExecucao();
+        //classeDeTeste.iniciarExecucao();
+        classeDeTeste.executarTestes("VPFtO8vO8eXUN49C6wPpTt9dHF63");
 
     }
 
